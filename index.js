@@ -16,7 +16,7 @@ app.post('/test-json', (req, res) => {
 });
 
 // ✅ Simple GET endpoint
-app.get('/get-test', (req, res) => {
+app.get('/', (req, res) => {
   res.status(200).json({
     message: 'GET request successful',
     timestamp: new Date().toISOString()
