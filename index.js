@@ -3,7 +3,7 @@ import express from 'express';
 const app = express();
 const PORT = 3000;
 
-// Middleware to parse JSON
+// Middleware to parse  the JSON
 app.use(express.json());
 
 // Simple POST endpoint
