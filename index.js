@@ -15,7 +15,7 @@ app.post('/test-json', (req, res) => {
   });
 });
 
-// ✅ Simple GET endpoint
+//  Simple GET endpoint
 app.get('/', (req, res) => {
   res.status(200).json({
     message: 'GET request successful',
