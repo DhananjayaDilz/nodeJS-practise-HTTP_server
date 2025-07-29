@@ -15,7 +15,7 @@ import helmet from "helmet";
 import config from "@/config";
 import limiter from "@/lib/express_rate_limit";
 import { connectToDatabase ,disconnectFromDatabase } from "@/lib/mongoose";
-
+import { logger } from "@/lib/winston";
 
 /**
  * Types
@@ -47,7 +47,8 @@ const corsOptions : CorsOptions = {
             callback(null,true)
         } else {
             //Reject requests from non whitelisted origins
-            callback(new Error(`CORS Error : ${origin} is not allowed `),false)
+            callback(new Error(`CORS Error : ${origin} is not allowed `),false);
+            logger.warn(`CORS Error : ${origin} is not allowed `)
         }
     },
 };
@@ -73,10 +74,10 @@ app.use(limiter);
         app.use("/api/v1", v1Routes);
         
         app.listen(config.PORT, ()=>{
-            console.log(`server running : http://localhost:${config.PORT}`)
+            logger.info(`server running : http://localhost:${config.PORT}`)
         });
     } catch (err) {
-        console.log("fail to sartt server" ,err)
+        logger.error("fail to sartt server" ,err)
 
         if (config.NODE_ENV== "production") {
             process.exit(1)
@@ -95,10 +96,10 @@ server.
 const handleServerShutdown = async () =>{
     try {
         await disconnectFromDatabase();
-        console.log("server SHUTDOWN");
+        logger.warn("server SHUTDOWN");
         process.exit(0)
     } catch (err) {
-        console.log("Error during server shutting down")
+        logger.error("Error during server shutting down")
     }
 };
 
